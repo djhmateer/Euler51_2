@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
 
@@ -29,10 +30,29 @@ namespace Euler51_2
             var result = E51.ConvertListIntToCSVString(list);
             Assert.AreEqual("3,5,7,11", result);
         }
+
+        [Test]
+        public void ReadCSVAndConvertToList_Given_ReturnList()
+        {
+           List<int> result = E51.ReadCSVAndConvertToList();
+           CollectionAssert.IsNotEmpty(result);
+        }
     }
 
     public class E51
     {
+        public static List<int> ReadCSVAndConvertToList()
+        {
+            var list = new List<int>();
+            string csv = File.ReadAllText(@"e:\temp\primes.csv");
+            string[] array = csv.Split(',');
+            foreach (var s in array)
+            {
+                list.Add(Convert.ToInt32(s));
+            }
+            return list;
+        }
+
         public static string ConvertListIntToCSVString(List<int> list)
         {
             string csv = String.Join(",", list.Select(x => x.ToString()).ToArray());
@@ -43,7 +63,7 @@ namespace Euler51_2
         {
             var list = new List<int>();
             //for (int i = 10000000; i <= 99999999; i++)
-            for (int i = 10000001; i <= 99999999; i = i + 2)
+            for (int i = 10000001; i <= 11199999; i = i + 2)
             {
                 if (IsPrime(i))
                 {
