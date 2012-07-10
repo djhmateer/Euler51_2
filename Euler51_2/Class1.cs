@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using NUnit.Framework;
 
@@ -9,6 +8,8 @@ namespace Euler51_2
     [TestFixture]
     public class E51Tests
     {
+        //Find the smallest prime which, by changing the same part of that number
+        //can form eight different primes
         [Test]
         public void GetSmallestPrimeReplcesWhichIsIn8PrimeFaily_Given_ReturnListPrimes()
         {
@@ -21,14 +22,18 @@ namespace Euler51_2
     {
         public static int GetSmallestPrimeReplacedWhichIsIn8PrimeFamily()
         {
-            for (int a = 10001; a <= 20000000; a = a + 2)
+            //assume 6 digits will be required
+            for (int a = 100001; a <= 999999; a = a + 2)
             {
                 if (IsPrime(a))
                 {
                     var listPrimesInFamily = new List<int>();
                     string s = a.ToString();
-                    //pick a digit to use
-                    for (int i = 0; i <= 9; i++)
+                    //pick a digit to use..but not last digit as this wouldn't allow 8 primes
+                    //leading 0's not permitted
+                    //looking through for a triplet of numbers in the first 5 digits
+                    //that would be exchanged for a total of 8 primes
+                    for (int i = 1; i <= 8; i++)
                     {
                         char[] digit = i.ToString().ToCharArray();
                         string numChanged = "";
@@ -50,7 +55,6 @@ namespace Euler51_2
                                     {
                                         listPrimesInFamily.Add(numChangedNum);
                                         Console.WriteLine(numChangedNum);
-
                                     }
                                 }
                             }
