@@ -11,61 +11,83 @@ namespace Euler51_2
         //Find the smallest prime which, by changing the same part of that number
         //can form eight different primes
         [Test]
-        public void GetSmallestPrimeReplcesWhichIsIn8PrimeFaily_Given_ReturnListPrimes()
+        public void FindSmallestPrime_Given_Return()
         {
-            int result = E51.GetSmallestPrimeReplacedWhichIsIn8PrimeFamily();
-            Assert.AreEqual(1, result);
+            int result = E51.FindSmallestPrime();
+            Assert.AreEqual(121313, result);
+        }
+
+        [Test]
+        public void MethodUnderTest_scenario_expectedbehaviour()
+        {
+            var result = E51.DoSomething();
+
         }
     }
 
     public class E51
     {
-        public static int GetSmallestPrimeReplacedWhichIsIn8PrimeFamily()
+        public static int DoSomething()
+        {
+            string s = "12345";
+            char[] array = s.ToCharArray();
+            array[1] = (char) (3+48);
+            return 0;
+        }
+
+        public static int FindSmallestPrime()
         {
             //assume 6 digits will be required
-            for (int a = 100001; a <= 999999; a = a + 2)
+            for (int a = 121313; a <= 999999; a = a + 2)
             {
                 if (IsPrime(a))
                 {
                     var listPrimesInFamily = new List<int>();
                     string s = a.ToString();
+                    char[] array = s.ToCharArray();
                     //pick a digit to use..but not last digit as this wouldn't allow 8 primes
                     //leading 0's not permitted
                     //looking through for a triplet of numbers in the first 5 digits
                     //that would be exchanged for a total of 8 primes
-                    for (int i = 1; i <= 8; i++)
+                    //-1 means don't change the digit
+                    for (int i = -1; i <= 9; i++)
                     {
-                        char[] digit = i.ToString().ToCharArray();
-                        string numChanged = "";
-                        //replace 2 of the digits with same number
-                        int numChangedNum = 0;
-                        for (int j = 0; j < s.Length; j++)
+                        if (i != -1 && i != 0)
                         {
-                            for (int k = 0; k < s.Length; k++)
+                            //change first digit to i
+                            array[0] = (char)(i+48);
+                        }
+                        for (int j = -1; j <= 9; j++)
+                        {
+                            if (j != -1)
                             {
-                                char[] array = s.ToCharArray();
-                                array[j] = digit[0];
-                                array[k] = digit[0];
-                                string n = new string(array);
-                                numChangedNum = Convert.ToInt32(n);
+                                //change second digit to j
+                                array[1] = (char)(j+48);
+                            }
 
-                                if (IsPrime(numChangedNum))
+                            for (int k = -1; k <= 9; k++)
+                            {
+                                if (k != -1)
                                 {
-                                    if (!listPrimesInFamily.Contains(numChangedNum))
+                                    //change third digit to k
+                                    array[2] = (char)(k + 48);
+                                }
+                                string n = new string(array);
+                                int numChanged = Convert.ToInt32(n);
+                                if (IsPrime(numChanged))
+                                {
+                                    if (numChanged != a)
                                     {
-                                        listPrimesInFamily.Add(numChangedNum);
-                                        Console.WriteLine(numChangedNum);
+                                        if (!listPrimesInFamily.Contains(numChanged))
+                                        {
+                                            listPrimesInFamily.Add(numChanged);
+                                        }
                                     }
                                 }
                             }
                         }
-                        
-                        if (listPrimesInFamily.Count >= 8)
-                        {
-                            int smallest = listPrimesInFamily.OrderBy(x => x).FirstOrDefault();
-                            return smallest;
-                        }
                     }
+                    Console.WriteLine(listPrimesInFamily.Count);
                 }
             }
             return -1;
