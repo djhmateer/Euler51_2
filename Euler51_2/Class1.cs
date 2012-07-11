@@ -64,10 +64,6 @@ namespace Euler51_2
                                                 if (q == 1) array[5] = (char)(m + 48);
 
                                                 //Console.WriteLine("{0},{1},{2},{3},{4},{5}",i,j,k,n,p,q);
-                                                if (i == 1 && k == 1 && p == 1)
-                                                {
-                                                    var tt = 0;
-                                                }
                                                 string num = new string(array);
                                                 int numChanged = Convert.ToInt32(num);
                                                 //Console.WriteLine("c:{0}",num);
